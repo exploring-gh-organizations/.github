@@ -7,6 +7,16 @@ on:
         description: 'Working directory for Terragrunt commands'
         required: true
         type: string
+      tg_version:
+        description: 'Terragrunt version'
+        required: false
+        type: string
+        default: '0.82.3'
+      tofu_version:
+        description: 'OpenTofu version'
+        required: false
+        type: string
+        default: '1.10.1'
 
 jobs:
   terragrunt-ci:
@@ -23,6 +33,8 @@ jobs:
         id: fmt
         uses: gruntwork-io/terragrunt-action@v3
         with:
+          tg_version: ${{ inputs.tg_version }}
+          tofu_version: ${{ inputs.tofu_version }}
           tg_dir: ${{ inputs.working_directory }}
           tg_command: 'hclfmt --terragrunt-check --all'
         continue-on-error: true
@@ -31,6 +43,8 @@ jobs:
         id: validate
         uses: gruntwork-io/terragrunt-action@v3
         with:
+          tg_version: ${{ inputs.tg_version }}
+          tofu_version: ${{ inputs.tofu_version }}
           tg_dir: ${{ inputs.working_directory }}
           tg_command: 'validate --all'
         continue-on-error: true
@@ -39,6 +53,8 @@ jobs:
         id: plan
         uses: gruntwork-io/terragrunt-action@v3
         with:
+          tg_version: ${{ inputs.tg_version }}
+          tofu_version: ${{ inputs.tofu_version }}
           tg_dir: ${{ inputs.working_directory }}
           tg_command: 'plan --all'
         continue-on-error: true
