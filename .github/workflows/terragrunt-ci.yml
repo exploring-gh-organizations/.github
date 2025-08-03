@@ -19,25 +19,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      - name: Setup Terragrunt
-        uses: autero1/action-terragrunt@v3
-
       - name: Terragrunt Format Check
         id: fmt
-        run: terragrunt hclfmt --terragrunt-check --all
+        uses: gruntwork-io/terragrunt-action@v3
+        with:
+          tg_dir: ${{ inputs.working_directory }}
+          tg_command: 'hclfmt --terragrunt-check --all'
         continue-on-error: true
 
       - name: Terragrunt Validate
         id: validate
-        run: terragrunt validate --all
+        uses: gruntwork-io/terragrunt-action@v3
+        with:
+          tg_dir: ${{ inputs.working_directory }}
+          tg_command: 'validate --all'
         continue-on-error: true
 
       - name: Terragrunt Plan
         id: plan
-        run: terragrunt plan --all --terragrunt-non-interactive
+        uses: gruntwork-io/terragrunt-action@v3
+        with:
+          tg_dir: ${{ inputs.working_directory }}
+          tg_command: 'plan --all'
         continue-on-error: true
 
       - name: Comment PR
@@ -53,7 +56,7 @@ jobs:
             <details><summary>Show Plan</summary>
             
             \`\`\`
-            ${{ steps.plan.outputs.stdout }}
+            ${{ steps.plan.outputs.tg_action_output }}
             \`\`\`
             
             </details>`;
