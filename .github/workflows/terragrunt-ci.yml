@@ -39,7 +39,7 @@ jobs:
           tg_version: ${{ inputs.tg_version }}
           tofu_version: ${{ inputs.tofu_version }}
           tg_dir: ${{ inputs.working_directory }}
-          tg_command: 'hclfmt --terragrunt-check --all'
+          tg_command: 'hcl format --check --all'
 
       - name: Terragrunt Validate
         id: validate
@@ -84,3 +84,15 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            **Hello**
+            🌏
+            !  
