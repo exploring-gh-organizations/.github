@@ -24,7 +24,9 @@ jobs:
     defaults:
       run:
         working-directory: ${{ inputs.working_directory }}
-    
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_OWNER: ${{ github.repository_owner }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
