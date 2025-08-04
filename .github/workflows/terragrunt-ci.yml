@@ -84,15 +84,3 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
-
-  test:
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    steps:
-      - uses: mshick/add-pr-comment@v2
-        with:
-          message: |
-            **Hello**
-            🌏
-            !  
