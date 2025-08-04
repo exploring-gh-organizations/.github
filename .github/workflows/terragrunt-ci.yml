@@ -57,7 +57,8 @@ jobs:
           tg_version: ${{ inputs.tg_version }}
           tofu_version: ${{ inputs.tofu_version }}
           tg_dir: ${{ inputs.working_directory }}
-          tg_command: 'plan --all'
+          tg_comment: 1
+          tg_command: 'plan --all --no-color'
 
       - name: Comment PR
         if: always()
@@ -72,7 +73,7 @@ jobs:
             
             <details><summary>Show Plan</summary>
             
-            \`\`\`
+            \`\`\`hcl
             ${{ steps.plan.outputs.tg_action_output }}
             \`\`\`
             
