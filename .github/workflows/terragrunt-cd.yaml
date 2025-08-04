@@ -7,6 +7,10 @@ on:
         description: 'Working directory for Terragrunt commands'
         required: true
         type: string
+      github_owner:
+        description: 'GitHub organization name'
+        required: true
+        type: string
       tg_version:
         description: 'Terragrunt version'
         required: false
@@ -20,8 +24,6 @@ on:
     secrets:
       GH_TOKEN: 
         required: true
-      GH_OWNER:
-        required: true
 
 jobs:
   terragrunt-cd:
@@ -31,7 +33,7 @@ jobs:
         working-directory: ${{ inputs.working_directory }}
     env:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      GITHUB_OWNER: ${{ secrets.GH_OWNER }}
+      GITHUB_OWNER: ${{ inputs.github_owner }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
