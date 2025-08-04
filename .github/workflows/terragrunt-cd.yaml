@@ -25,12 +25,8 @@ jobs:
       run:
         working-directory: ${{ inputs.working_directory }}
     env:
-<<<<<<< HEAD
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-=======
-      GITHUB_TOKEN: ${{ github.token }}
->>>>>>> origin/main
-      GITHUB_OWNER: ${{ github.repository_owner }}
+      GITHUB_OWNER: "exploring-gh-organizations"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
