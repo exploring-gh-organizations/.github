@@ -1,0 +1,38 @@
+name: Terragrunt CD
+
+on:
+  workflow_call:
+    inputs:
+      working_directory:
+        description: 'Working directory for Terragrunt commands'
+        required: true
+        type: string
+      tg_version:
+        description: 'Terragrunt version'
+        required: false
+        type: string
+        default: '0.82.3'
+      tofu_version:
+        description: 'OpenTofu version'
+        required: false
+        type: string
+        default: '1.10.1'
+
+jobs:
+  terragrunt-cd:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working_directory }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Terragrunt Apply
+        uses: gruntwork-io/terragrunt-action@v3
+        with:
+          tg_version: ${{ inputs.tg_version }}
+          tofu_version: ${{ inputs.tofu_version }}
+          tg_dir: ${{ inputs.working_directory }}
+          tg_command: 'apply --all'
