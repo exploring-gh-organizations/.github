@@ -17,6 +17,9 @@ on:
         required: false
         type: string
         default: '1.10.1'
+      GH_TOKEN: 
+        required: true
+        type: string
 
 jobs:
   terragrunt-cd:
@@ -25,7 +28,7 @@ jobs:
       run:
         working-directory: ${{ inputs.working_directory }}
     env:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      GITHUB_TOKEN: ${{ input.GH_TOKEN }}
       GITHUB_OWNER: "exploring-gh-organizations"
     steps:
       - name: Checkout
