@@ -1,24 +1,24 @@
 name: Build Code Quality Container
 on:
   push:
-    paths: 
+    paths:
       - 'containers/code-quality/**'
       - 'config/pre-commit-config.yaml'
     branches: [main]
   pull_request:
     paths:
-      - 'containers/code-quality/**'
+      - 'containers/code-quality/**' 
       - 'config/pre-commit-config.yaml'
   workflow_dispatch:
 
 jobs:
   build:
-    name: 🐳 Build Container
     uses: ./.github/workflows/shared-ci-docker-build.yml
     with:
-      working-directory: "containers/code-quality"
-      docker-repo: "opencloudhub/code-quality"
-      push: ${{ github.event_name != 'pull_request' }}
+      docker-repo: "${{ secrets.DOCKERHUB_USERNAME }}/code-quality"
+      context: "containers/code-quality"
+      build-args: |
+        PRECOMMIT_CONFIG_PATH=../../config/pre-commit-config.yaml
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
