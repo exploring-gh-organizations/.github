@@ -24,6 +24,8 @@ on:
     secrets:
       GH_TOKEN: 
         required: true
+      GITHUB_OWNER:
+        required: true
 
 jobs:
   terragrunt-cd:
@@ -33,7 +35,7 @@ jobs:
         working-directory: ${{ inputs.working_directory }}
     env:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      GITHUB_OWNER: ${{ inputs.github_owner }}
+      GITHUB_OWNER: ${{ secrets.GITHUB_OWNER }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
