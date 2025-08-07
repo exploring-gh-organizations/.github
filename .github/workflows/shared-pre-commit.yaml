@@ -1,0 +1,40 @@
+name: Code Quality
+on:
+  push:
+  workflow_call:
+    inputs:
+      precommit_config_url:
+        description: 'URL to pre-commit config'
+        required: false
+        type: string
+        default: 'https://raw.githubusercontent.com/OpenCloudHub/.github/main/.pre-commit-config.yaml'
+
+jobs:
+  code-quality:
+    name: 🧪 Code Quality Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Check out repository
+        uses: actions/checkout@v4
+        
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: 📥 Download pre-commit config
+        run: curl -o .pre-commit-config.yaml ${{ inputs.precommit_config_url }}
+        
+      - name: 💾 Cache Pre-Commit packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pre-commit
+          key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+          
+      - name: 📦 Install pre-commit
+        run: pip install pre-commit
+        
+      - name: ✅ Run pre-commit hooks
+        run: pre-commit run --all-files
+
+        
